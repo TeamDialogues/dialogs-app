@@ -4,6 +4,8 @@ import "firebase/firestore";
 import "firebase/auth";
 import firebase from "./config/firebaseConfig";
 import "./App.css";
+import { ChatRoom } from './components';
+
 
 const firestore = firebase.firestore();
 
@@ -88,6 +90,7 @@ function ChatMessage({ message }) {
 }
 
 function App() {
+
   const chatRoomsRef = firestore.collection("chatrooms");
   const query = chatRoomsRef.orderBy("createdAt");
   const [showForm, setShowForm] = useState(false);
@@ -139,24 +142,32 @@ function App() {
     );
   }
 
-  return (
-    <div className="App">
-      <button onClick={() => setShowForm(true)}>Create Room</button>
-      {showForm && newRoomForm()}
-      <br />
-      <h3>On going chats</h3>
-      {chatRooms &&
-        chatRooms
-          .filter((room) => room.currentStatus === "ongoing")
-          .map((room) => <ChatRoom key={room.id} chatRoom={room} />)}
-      <hr />
-      <h3>Your Saved Chats</h3>
-      {chatRooms &&
-        chatRooms
-          .filter((room) => room.currentStatus === "saved")
-          .map((room) => <ChatRoom key={room.id} chatRoom={room} />)}
-    </div>
-  );
+//   return (
+//     <div className="App">
+//       <button onClick={() => setShowForm(true)}>Create Room</button>
+//       {showForm && newRoomForm()}
+//       <br />
+//       <h3>On going chats</h3>
+//       {chatRooms &&
+//         chatRooms
+//           .filter((room) => room.currentStatus === "ongoing")
+//           .map((room) => <ChatRoom key={room.id} chatRoom={room} />)}
+//       <hr />
+//       <h3>Your Saved Chats</h3>
+//       {chatRooms &&
+//         chatRooms
+//           .filter((room) => room.currentStatus === "saved")
+//           .map((room) => <ChatRoom key={room.id} chatRoom={room} />)}
+//     </div>
+//   );
+
+	return (
+		<>
+			<div className='App'></div>
+			<ChatRoom />
+		</>
+	);
+
 }
 
 export default App;
