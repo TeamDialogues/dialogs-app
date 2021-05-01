@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.flex-center-column {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	/* margin: 0 5rem; */
+}
+
+.landing-theme {
+	display: none;
+}
+
+.login-container {
+	display: flex;
+	/* flex-direction: column; */
+	justify-content: center;
+	align-items: center;
+}
+
+.login-wrapper {
+	/* border: 1px solid var(--secondary-color); */
+	padding: 1rem;
+	width: 80%;
+	height: 94vh;
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.dialogs-logo {
+	font-family: 'Pacifico', cursive;
+	font-size: 2rem;
+}
+
+.btn-primary {
+	background: var(--btn-primary);
+	padding: 1rem;
+	color: #fff;
+	border: 0;
+	width: 100%;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.padding-bottom {
+	padding-bottom: 1.5rem;
+}
+
+.border-bottom {
+	border-bottom: 1px solid var(--secondary-color);
+}
+
+.form {
+	padding: 1.5rem 0;
+}
+
+@media screen and (min-width: 900px) {
+	.login-container {
+		display: flex;
+		/* flex-direction: column; */
+		justify-content: space-between;
+		height: 100vh;
+		align-items: center;
+		/* margin: 0 10rem; */
+	}
+	.login-wrapper {
+		width: 40%;
+		margin: 0 6rem;
+		/* border: 1px solid; */
+	}
+	.landing-theme {
+		display: block;
+		width: 30%;
+		background: var(--primary-color-light);
+		height: 80%;
+		padding: 4rem;
+		text-align: left;
+		color: var(--midgrey);
+	}
+
+	.landing-theme__txt {
+		font-weight: 1000;
+		font-size: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	.desktop-view {
+		display: none;
+	}
+}
