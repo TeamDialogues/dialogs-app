@@ -21,6 +21,8 @@
     ],
     "rules": {
         "react/react-in-jsx-scope": "off",
-        "prettier/prettier": "off"
+        "react/prop-types": "off",
+        "prettier/prettier": "off",
+        "no-unused-vars":"off"
     }
 }
