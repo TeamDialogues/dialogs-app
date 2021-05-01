@@ -7,6 +7,9 @@ import "./App.css";
 
 const firestore = firebase.firestore();
 
+const currentLoggedInUserId = "123";
+const currentLoggedInUserName = "Pooja";
+
 function ChatRoom({ chatRoom }) {
   const dummy = useRef();
   const messagesRef = firestore.collection("messages");
@@ -23,8 +26,8 @@ function ChatRoom({ chatRoom }) {
     e.preventDefault();
 
     await messagesRef.add({
-      userId: "123",
-      userName: "Pooja",
+      userId: currentLoggedInUserId,
+      userName: currentLoggedInUserName,
       text: formValue,
       chatRoomId: chatRoom.id,
       createdAt: new Date().toISOString(),
@@ -147,7 +150,7 @@ function App() {
           .filter((room) => room.currentStatus === "ongoing")
           .map((room) => <ChatRoom key={room.id} chatRoom={room} />)}
       <hr />
-      <h3>Saved Chats</h3>
+      <h3>Your Saved Chats</h3>
       {chatRooms &&
         chatRooms
           .filter((room) => room.currentStatus === "saved")
