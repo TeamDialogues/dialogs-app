@@ -4,7 +4,7 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	align-items: center;
+	align-items: flex-start;
 	/* margin: 0 5rem; */
 }
 
@@ -48,12 +48,22 @@
 	padding-bottom: 1.5rem;
 }
 
+.margin-bottom {
+	margin-bottom: 1rem;
+}
+
 .border-bottom {
 	border-bottom: 1px solid var(--secondary-color);
 }
 
+.bold-txt {
+	font-weight: 1000;
+	text-decoration: underline;
+	color: var(--primary-color);
+}
 .form {
 	padding: 1.5rem 0;
+	text-align: left;
 }
 
 @media screen and (min-width: 900px) {
