@@ -1,38 +1,53 @@
-.App {
-  text-align: center;
+* {
+	box-sizing: border-box;
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+:root {
+	--primary-color: #7754f8;
+	--primary-color-light: #f0edfe;
+
+	--secondary-color: #adb6bf;
+
+	--bg-color-light: #f0f4f7;
+
+	--em-bg-color-1: #dde4ec;
+	--em-bg-color-2: #12a2e9;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.btn {
+	text-decoration: none;
+	display: inline-block;
+	padding: 0.4rem 1.5rem;
+	border: none;
+	background-color: transparent;
+	font-size: 0.825rem;
+	font-weight: 600;
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+}
+.btn:focus {
+	outline: 1px solid;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.btn-primary-solid {
+	background-color: var(--primary-color);
+	color: white;
+	border-bottom-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem;
 }
 
-.App-link {
-  color: #61dafb;
+.btn-secondary-solid {
+	background-color: var(--primary-color-light);
+	color: var(--primary-color);
+	border-bottom-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.flex-grow {
+	flex-grow: 1;
 }
