@@ -85,7 +85,10 @@ export function ChatRoom() {
 					</button>
 					<input
 						disabled={
-							chat.activeUsers.find((id) => id === currentUser.id)
+							chat.users.find(
+								({ userId, permission }) =>
+									userId === currentUser.id && permission === 'write',
+							)
 								? false
 								: true
 						}
