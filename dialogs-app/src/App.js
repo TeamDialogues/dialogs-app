@@ -87,33 +87,67 @@ function ChatMessage({ message }) {
 function App() {
   const chatRoomsRef = firestore.collection("chatrooms");
   const query = chatRoomsRef.orderBy("createdAt");
+  const [showForm, setShowForm] = useState(false);
 
   const [chatRooms] = useCollectionData(query, { idField: "id" });
+  const [formDetails, setFormDetails] = useState({ title: "", agenda: "" });
 
   async function createRoom() {
+    console.log("here");
     const newRoom = {
       userId: "123",
       userName: "Pooja",
-      title: "WFH vs Office",
-      agenda: "To discuss about WFH vs office. Which one is better",
+      title: formDetails.title,
+      agenda: formDetails.agenda,
       currentStatus: "ongoing", //has to be made ENUM
       createdAt: new Date().toISOString(),
     };
+    console.log(newRoom);
 
-    const response = await chatRoomsRef.add(newRoom);
-    console.log(response);
+    await chatRoomsRef.add(newRoom);
   }
+
+  function newRoomForm() {
+    return (
+      <div>
+        <label>Title </label>
+        <input
+          type="text"
+          onChange={(e) =>
+            setFormDetails((formDetails) => ({
+              ...formDetails,
+              title: e.target.value,
+            }))
+          }
+        ></input>
+
+        <label> Agenda </label>
+        <input
+          type="text"
+          onChange={(e) =>
+            setFormDetails((formDetails) => ({
+              ...formDetails,
+              agenda: e.target.value,
+            }))
+          }
+        ></input>
+        <button onClick={createRoom}>Submit</button>
+      </div>
+    );
+  }
+
   return (
     <div className="App">
-      <button onClick={createRoom}>Create Room</button>
+      <button onClick={() => setShowForm(true)}>Create Room</button>
+      {showForm && newRoomForm()}
       <br />
-      <heading>On going chats</heading>
+      <h3>On going chats</h3>
       {chatRooms &&
         chatRooms
           .filter((room) => room.currentStatus === "ongoing")
           .map((room) => <ChatRoom key={room.id} chatRoom={room} />)}
       <hr />
-      <heading>Saved Chats</heading>
+      <h3>Saved Chats</h3>
       {chatRooms &&
         chatRooms
           .filter((room) => room.currentStatus === "saved")
