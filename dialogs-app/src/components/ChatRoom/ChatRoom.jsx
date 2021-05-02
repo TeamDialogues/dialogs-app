@@ -4,9 +4,12 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import "./chat-room.css";
 import { UserListItem } from "./UsersListItem";
 import {
-  getChatFromId,
+  getChats,
   getMessageQueryFromChatId,
   addUserToChat,
+  getUsersQuery,
+  setPermissionForUserForChat,
+  sendMessage,
 } from "../../DBfunctions/dbFunctions";
 
 const chatId = "EVk1hONn8Mi4Q1LHjnpl";
@@ -23,9 +26,11 @@ export function ChatRoom() {
   const messagesQuery = getMessageQueryFromChatId(chatId);
   const [messages] = useCollectionData(messagesQuery, { idField: "id" });
 
-  const chatQuery = getChatFromId(chatId);
+  const chatQuery = getChats();
 
   const [chats] = useCollectionData(chatQuery, { idField: "id" });
+  const usersQuery = getUsersQuery();
+  const [users] = useCollectionData(usersQuery, { idField: "id" });
 
   const hostOfTheChat = chat.users.find(
     ({ permission }) => permission === "ADMIN"
@@ -59,7 +64,6 @@ export function ChatRoom() {
 
   useEffect(() => {
     //make user's permission in chat model- read
-    // getChatFromId(chatId, setChatData);
     return () => {
       //remove user from users array in chat model
     };

@@ -58,7 +58,7 @@ function ChatRoom({ chatRoom }) {
 
     return true;
   }
-  
+
   return (
     <>
       <h4>{chatRoom.title}</h4>
@@ -108,10 +108,12 @@ function ChatMessage({ message }) {
 
 function ChatRoomFunctionality() {
   const chatRoomsRef = firestore.collection("chatrooms");
+  const usersRef = firestore.collection("users");
   const query = chatRoomsRef.orderBy("createdAt");
   const [showForm, setShowForm] = useState(false);
 
   const [chatRooms] = useCollectionData(query, { idField: "id" });
+  const [users] = useCollectionData(usersRef, { idField: "id" });
   const [formDetails, setFormDetails] = useState({ title: "", agenda: "" });
 
   async function createRoom() {
@@ -123,17 +125,20 @@ function ChatRoomFunctionality() {
       agenda: formDetails.agenda,
       currentStatus: "ongoing", //has to be made ENUM
       createdAt: new Date().toISOString(),
-      users: [
-        {
-          userId: currentLoggedInUserId,
-          permission: "ADMIN",
-          userName: currentLoggedInUserName,
-          userImage: "https://material-ui.com/static/images/avatar/1.jpg",
-        },
-      ],
     };
 
-    await chatRoomsRef.add(newRoom);
+    const chatResponse = await chatRoomsRef.add(newRoom);
+
+    const userAdmin = {
+      userId: currentLoggedInUserId,
+      permission: "ADMIN",
+      userName: currentLoggedInUserName,
+      userImage: "https://material-ui.com/static/images/avatar/1.jpg",
+      chatId: chatResponse.id,
+      createdAt: new Date().toISOString(),
+    };
+
+    const userResponse = await usersRef.add(userAdmin);
   }
 
   function newRoomForm() {
