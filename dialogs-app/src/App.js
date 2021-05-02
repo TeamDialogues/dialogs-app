@@ -1,9 +1,7 @@
 import './App.css';
-// eslint-disable-next-line no-unused-vars
 import { Routes, Route } from 'react-router-dom';
 import { Home, ChatRoom } from './components';
 import { Login, Signup, PrivateRoutes } from './authentication';
-// import ChatRoomFunctionality from './components/ChatFunctionalityPoojaTemp/ChatRoom1';
 
 function App() {
 	return (
