@@ -36,8 +36,9 @@ export function getMessageQueryFromChatId(chatId) {
   return query;
 }
 
-export async function addUserToChat(user, chatId) {
-  user = {
+//TODO: FIX THIS!
+export async function addUserToChat(newUser, chatId) {
+  newUser = {
     userId: "123",
     permission: "READ",
     userName: "random",
@@ -47,11 +48,21 @@ export async function addUserToChat(user, chatId) {
   const response = await firestore
     .collection("chatrooms")
     .doc(chatId)
-    .set({ users: [{ user }] }, { merge: true });
-}
-export function setPermissionForUserForChat(user) {}
+    .get("users");
 
-export function closeChat() {}
+  console.log(response.data());
+  //   const response = await firestore
+  //     .collection("chatrooms")
+  //     .doc(chatId)
+  //     .set({ users: [{ user }] }, { merge: true });
+}
+
+export function setPermissionForUserForChat(user, permissonToBeGiven) {}
+
+export function closeChat(chatId, isSaved) {}
+
+export function makeChatPublic(chatId) {}
+
 // export async function sendMessage(messageFromUser) {
 //     e.preventDefault();
 
