@@ -5,10 +5,11 @@
 }
 
 :root {
-	--primary-color: #7754f8;
+	--primary-color: rgb(124, 58, 237);
 	--primary-color-light: #f0edfe;
 
 	--secondary-color: #adb6bf;
+	--secondary-color-dark: #9ba2aa;
 
 	--bg-color-light: #f0f4f7;
 
@@ -19,7 +20,7 @@
 .btn {
 	text-decoration: none;
 	display: inline-block;
-	padding: 0.4rem 1.5rem;
+	padding: 0.6rem 1.5rem;
 	border: none;
 	background-color: transparent;
 	font-size: 0.825rem;
@@ -27,6 +28,9 @@
 	text-align: center;
 	outline: none;
 	cursor: pointer;
+}
+.btn:disabled {
+	cursor: auto;
 }
 .btn:focus {
 	outline: 1px solid;
@@ -50,4 +54,22 @@
 
 .flex-grow {
 	flex-grow: 1;
+}
+
+.link {
+	text-decoration: none;
+	color: inherit;
+	display: inline-block;
+	padding: 0.4rem 1.5rem;
+	font-size: 0.825rem;
+	font-weight: 600;
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+}
+.link:focus {
+	outline: 1px solid;
+}
+.text-color-secondary {
+	color: var(--secondary-color-dark);
 }
