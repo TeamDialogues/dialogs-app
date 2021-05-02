@@ -4,7 +4,7 @@ import './login.css';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { makeStyles } from '@material-ui/core/styles';
 import { auth, provider } from '../config/firebaseConfig';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { TextField } from '@material-ui/core';
 import { isValidEmail, isValidPassword } from '../utils';
 import { useAuthentication } from '../context';
@@ -16,6 +16,7 @@ const useStyles = makeStyles(() => ({
 }));
 
 export const Signup = () => {
+	const navigate = useNavigate();
 	const classes = useStyles();
 	const [user] = useAuthState(auth);
 	const { authDispatch, authStates } = useAuthentication();
@@ -75,7 +76,7 @@ export const Signup = () => {
 			);
 			authDispatch({ type: 'SET_CURRENTUSER', payload: userObject });
 			authDispatch({ type: 'TOGGLE_LOGIN_STATE', payload: true });
-			Navigate('/');
+			navigate('/');
 		} catch (error) {
 			setError('Signin not successful');
 		}
@@ -115,7 +116,7 @@ export const Signup = () => {
 					email: '',
 					password: '',
 				});
-				Navigate('/');
+				navigate('/');
 			} catch (error) {
 				console.log({ error });
 				setError(`${error.code}, Login to enter`);
