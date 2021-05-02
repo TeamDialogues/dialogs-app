@@ -3,9 +3,9 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import './chat-room.css';
 
 import {
-	getChatFromId,
+	getChats,
 	getMessageQueryFromChatId,
-	addUserToChat,
+	getUsersQuery,
 } from '../../DBfunctions/dbFunctions';
 import { ChatRoomMessagesContainer } from './ChatRoomMessagesContainer';
 import { ChatRoomUsersContainer } from './ChatRoomUsersContainer';
@@ -20,8 +20,12 @@ export function ChatRoom() {
 
 	console.log({ messages });
 
-	const chatQuery = getChatFromId();
+	const chatQuery = getChats();
+
 	const [chats] = useCollectionData(chatQuery, { idField: 'id' });
+	const usersQuery = getUsersQuery();
+	const [users] = useCollectionData(usersQuery, { idField: 'id' });
+
 	const chat = chats ? chats.find(({ id }) => id === chatId) : null;
 
 	useEffect(() => {
