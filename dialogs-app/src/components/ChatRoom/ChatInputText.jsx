@@ -80,12 +80,10 @@ export const ChatInputText = ({ chatId, users }) => {
 				onChange={(e) => setTextMessage(e.target.value)}
 			/>
 			<button
-				disabled={
-					!checkUserPermissionWrite({
-						users,
-						currentUser: authStates?.currentUser,
-					})
-				}
+				disabled={checkUserPermissionWrite({
+					users,
+					currentUser: authStates?.currentUser,
+				})}
 				className='btn btn-bubble'
 				onClick={postMessage}>
 				Send
