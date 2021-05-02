@@ -1,7 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
 * {
 	box-sizing: border-box;
+	font-family: 'Montserrat', sans-serif;
+}
+body {
 	margin: 0;
-	font-family: 'Open Sans', sans-serif;
 }
 
 :root {
@@ -15,6 +19,13 @@
 
 	--em-bg-color-1: #dde4ec;
 	--em-bg-color-2: #12a2e9;
+
+	--btn-primary: #7c3aed;
+	--midgrey: #4b5563;
+	--danger: #dc2626;
+	--light-grey: #f4f5f7;
+	--light-grey2: #6b7280;
+	--textgrey: #374151;
 }
 
 .btn {
@@ -44,12 +55,26 @@
 	border-bottom-right-radius: 1rem;
 }
 
-.btn-square{
+.btn-square {
 	padding: 0.5rem;
 	border: 0;
 	background: var(--primary-color);
 	color: #fff;
 	cursor: pointer;
+	border-radius: 0.25rem;
+}
+
+.btn-outline-secondary {
+	background: transparent;
+	border: 1.5px solid var(--midgrey);
+	color: var(--midgrey);
+	margin-right: 1rem;
+}
+
+.flex-center {
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
 }
 
 .flex-grow {

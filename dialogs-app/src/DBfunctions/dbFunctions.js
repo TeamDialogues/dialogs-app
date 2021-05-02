@@ -1,8 +1,8 @@
 
 import "firebase/firestore";
 import "firebase/auth";
-import firebase from "../config/firebaseConfig";
-const firestore = firebase.firestore();
+
+import {firestore} from "../config/firebaseConfig";
 
 
 export function getChats() {

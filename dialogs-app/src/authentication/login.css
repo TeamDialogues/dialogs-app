@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
+
+.flex-center-column {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: flex-start;
+}
+
+.landing-theme {
+	display: none;
+}
+
+.login-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.login-wrapper {
+	padding: 1rem;
+	width: 80%;
+	height: 100vh;
+	text-align: left;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.dialogs-logo {
+	font-family: 'Pacifico', cursive;
+	font-size: 2rem;
+}
+
+.btn-primary {
+	background: var(--btn-primary);
+	padding: 1rem;
+	color: #fff;
+	border: 0;
+	font-family: 'Montserrat', sans-serif;
+	cursor: pointer;
+}
+
+.width-100 {
+	width: 100%;
+}
+
+.padding-bottom {
+	padding-bottom: 1.5rem;
+}
+
+.margin-bottom {
+	margin-bottom: 1.25rem;
+}
+
+.border-bottom {
+	border-bottom: 1px solid var(--secondary-color);
+}
+
+.bold-txt {
+	font-weight: 1000;
+	text-decoration: underline;
+	color: var(--primary-color);
+}
+.form {
+	padding: 1.5rem 0;
+	text-align: left;
+}
+
+.error-alert {
+	color: var(--danger);
+	font-weight: 1000;
+}
+
+.field-container {
+	width: 100%;
+	margin-bottom: 1.5rem;
+}
+
+@media screen and (min-width: 900px) {
+	.login-container {
+		display: flex;
+		justify-content: space-between;
+		height: 100vh;
+		align-items: center;
+	}
+	.login-wrapper {
+		width: 40%;
+		margin: 0 6rem;
+	}
+	.landing-theme {
+		display: block;
+		width: 30%;
+		background: var(--primary-color-light);
+		height: 100vh;
+		padding: 4rem;
+		text-align: left;
+		color: var(--midgrey);
+	}
+
+	.landing-theme__txt {
+		font-weight: 1000;
+		font-size: 1.5rem;
+		margin-top: 2rem;
+	}
+
+	.desktop-view {
+		display: none;
+	}
+}

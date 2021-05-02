@@ -1,16 +1,18 @@
-import { chat } from '../../temp-database';
+import { useAuthentication } from '../../context';
 import { UserListItem } from './UsersListItem';
-import { currentUser } from '../../temp-database';
 import { sortUsers } from './utils';
 
 export const ChatRoomUsersContainer = ({
 	users,
 	setHamburger,
 	showHamburger,
+	chatId,
 }) => {
+	const { authStates } = useAuthentication();
 	const { sortedUsers, isCurrentUserAdmin } = sortUsers({
 		users,
-		currentUser,
+		currentUser: authStates?.currentUser,
+		chatId,
 	});
 	console.log(sortedUsers);
 	return (
