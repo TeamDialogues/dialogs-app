@@ -6,8 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
 import { auth, provider } from "../firebase/firebaseconfig";
 import { useAuth } from "../context/authContext";
-import { Link } from "react-router-dom";
-import { isValidEmail, isValidPassword } from "../utils/utils";
+import { Link, useNavigate } from "react-router-dom";
 
 const useStyles = makeStyles(() => ({
   input: {
@@ -18,17 +17,18 @@ const useStyles = makeStyles(() => ({
 export const Login = () => {
   const classes = useStyles();
   const [user] = useAuthState(auth);
-  const { authDispatch } = useAuth();
+  const { authStates, authDispatch } = useAuth();
   const [userObject, setUserObject] = useState({
     email: "",
     password: "",
   });
-
+  console.log({ authStates });
   const [error, setError] = useState("");
   const [validationError, setValidationError] = useState({
     email: "",
     password: "",
   });
+  const navigate = useNavigate();
 
   const validateForm = () => {
     let isValidationSuccess = true;
@@ -62,6 +62,7 @@ export const Login = () => {
     if (user) {
       authDispatch({ type: "SET_CURRENTUSER", payload: userObject });
       authDispatch({ type: "TOGGLE_LOGIN_STATE" });
+      navigate("/");
     }
   };
 
