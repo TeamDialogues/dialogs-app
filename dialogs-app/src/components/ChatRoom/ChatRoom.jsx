@@ -3,22 +3,22 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import './chat-room.css';
 
 import {
+	addUserToChat,
 	getChats,
 	getMessageQueryFromChatId,
 	getUsersQuery,
 } from '../../DBfunctions/dbFunctions';
 import { ChatRoomMessagesContainer } from './ChatRoomMessagesContainer';
 import { ChatRoomUsersContainer } from './ChatRoomUsersContainer';
+import { currentUser } from '../../temp-database';
 
 const chatId = 'GXavhxw7uD3UKuJZAZAJ';
 
-export function ChatRoom() {
+export function ChatRoom({ state }) {
 	const messagesQuery = getMessageQueryFromChatId(chatId);
 
 	const [messages] = useCollectionData(messagesQuery, { idField: 'id' });
 	const [showHamburger, setHamburger] = useState(false);
-
-	console.log({ messages });
 
 	const chatQuery = getChats();
 
@@ -29,18 +29,26 @@ export function ChatRoom() {
 	const chat = chats ? chats.find(({ id }) => id === chatId) : null;
 
 	useEffect(() => {
-		//make user's permission in chat model- read
-		// getChatFromId(chatId, setChatData);
-		return () => {
-			//remove user from users array in chat model
+		const newUser = {
+			userId: currentUser.uid,
+			permission: currentUser.uid !== state.hostId ? 'READ' : 'ADMIN',
+			userName: currentUser.displayName,
+			userImage: currentUser?.photoURL || '',
+			createdAt: new Date().toISOString(),
+			chatId: chatId,
 		};
+		console.log(newUser);
+
+		// addUserToChat(newUser);
+		return () => {};
 	}, []);
 
 	return (
 		<>
-			{chat && (
+			{chat && users && messages && (
 				<div className='grid-30-70-layout'>
 					<ChatRoomUsersContainer
+						users={users}
 						setHamburger={setHamburger}
 						showHamburger={showHamburger}
 					/>
@@ -48,6 +56,7 @@ export function ChatRoom() {
 						setHamburger={setHamburger}
 						chat={chat}
 						messages={messages}
+						users={users}
 					/>
 				</div>
 			)}

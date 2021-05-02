@@ -39,8 +39,8 @@ export async function addUserToChat(newUser) {
   //   createdAt: new Date().toISOString(),
   //   chatId: "fmwUYD6SU31ZPPf4F08z",
   // };
+  
   const usersRef = firestore.collection("users");
-
   const chatResponse = await usersRef.add(newUser);
 }
 

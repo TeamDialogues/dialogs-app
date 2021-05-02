@@ -9,7 +9,7 @@ export const ChatRoomUsersContainer = ({
 	showHamburger,
 }) => {
 	const { sortedUsers, isCurrentUserAdmin } = sortUsers({
-		users: chat.users,
+		users,
 		currentUser,
 	});
 	console.log(sortedUsers);

@@ -2,8 +2,9 @@
 export const emojis = ["😀", "🤣", "😍", "🔥", "👍", "👎"];
 
 export const currentUser = {
-  id: "14",
-  name: "Thor",
+  uid: "12",
+  displayName: "Priya",
+  photoURL: "https://material-ui.com/static/images/avatar/1.jpg",
 };
 
 // export const host = {

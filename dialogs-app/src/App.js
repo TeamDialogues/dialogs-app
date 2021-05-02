@@ -8,7 +8,7 @@ function App() {
     <>
       <div className="App"></div>
       {/* <ChatRoomFunctionality /> */}
-      <ChatRoom />
+      <ChatRoom state={{hostId : "15"}} />
     </>
   );
 }

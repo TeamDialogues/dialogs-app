@@ -15,8 +15,18 @@ export const UserListItem = ({ user, isCurrentUserAdmin }) => {
 				backgroundColor:
 					user.permission !== 'ADMIN' ? '' : 'var(--primary-color-light)',
 			}}>
-			<img className='avatar margin-right-8px' src={user.avatar} />
-			<div className='flex-grow'>{user.name}</div>
+			{user?.avatar ? (
+				<img
+					className='avatar margin-right-8px'
+					src={user?.avatar}
+					alt={user?.userName}
+				/>
+			) : (
+				<div className='avatar text-avatar margin-right-8px'>
+					{user.userName[0].toUpperCase()}
+				</div>
+			)}
+			<div className='flex-grow'>{user.userName}</div>
 
 			{user.permission === 'REQUEST' && (
 				<button
