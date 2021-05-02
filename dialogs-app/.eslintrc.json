@@ -24,5 +24,6 @@
         "react/prop-types": "off",
         "prettier/prettier": "off",
         "no-unused-vars":"off"
+
     }
 }
