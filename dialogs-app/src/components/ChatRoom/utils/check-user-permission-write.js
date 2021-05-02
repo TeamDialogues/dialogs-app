@@ -3,9 +3,7 @@ export const checkUserPermissionWrite = ({ users, currentUser, chatId }) => {
 
 	return allChatUsers.find(
 		({ userId, permission }) =>
-			(userId === currentUser?.uid && permission === 'WRITE') ||
-			(userId === currentUser?.uid && permission === 'ADMIN'),
-	)
-		? true
-		: false;
+			userId === currentUser.uid &&
+			(permission === 'WRITE' || permission === 'ADMIN'),
+	);
 };
