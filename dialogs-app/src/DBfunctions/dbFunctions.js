@@ -1,9 +1,7 @@
-
 import "firebase/firestore";
 import "firebase/auth";
 import firebase from "../config/firebaseConfig";
 const firestore = firebase.firestore();
-
 
 export function getChats() {
   //TODO: Optimise datamodel (good to have)
@@ -39,7 +37,7 @@ export async function addUserToChat(newUser) {
   //   createdAt: new Date().toISOString(),
   //   chatId: "fmwUYD6SU31ZPPf4F08z",
   // };
-  
+
   const usersRef = firestore.collection("users");
   const chatResponse = await usersRef.add(newUser);
 }
@@ -65,7 +63,7 @@ export async function setPermissionForUserForChat(
 }
 
 export function closeChat(chatId, isSaved) {
-  // chatId = "3VP4ZAzpsnmw3MxYajqT";
+  chatId = "fmwUYD6SU31ZPPf4F08z";
   if (isSaved) {
     firestore.collection("chatrooms").doc(chatId).update({
       currentStatus: "saved",
@@ -75,6 +73,15 @@ export function closeChat(chatId, isSaved) {
       currentStatus: "discarded",
     });
   }
+
+  const removeUserAccessFromChatQuery = firestore
+    .collection("users")
+    .where("chatId", "==", chatId);
+  removeUserAccessFromChatQuery.get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      doc.ref.delete();
+    });
+  });
 }
 
 export function makeChatPublic(chatId) {
@@ -94,4 +101,24 @@ export async function sendMessage(userMessageDetails) {
   //   };
   const messagesRef = firestore.collection("messages");
   await messagesRef.add(userMessageDetails);
+}
+
+export async function createRoom(newRoom, userAdmin) {
+  const chatRoomsRef = firestore.collection("chatrooms");
+  const usersRef = firestore.collection("users");
+  const chatResponse = await chatRoomsRef.add(newRoom);
+  const updatedUserAdmin = { ...userAdmin, chatId: chatResponse.id };
+  const userResponse = await usersRef.add(updatedUserAdmin);
+}
+
+export function removeUser(userId, chatId) {
+  const leaveChatRoomQuery = firestore
+    .collection("users")
+    .where("chatId", "==", chatId)
+    .where("userId", "==", userId);
+  leaveChatRoomQuery.get().then(function (querySnapshot) {
+    querySnapshot.forEach(function (doc) {
+      doc.ref.delete();
+    });
+  });
 }
