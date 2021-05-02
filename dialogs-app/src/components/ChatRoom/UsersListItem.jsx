@@ -1,13 +1,17 @@
 import { useState } from 'react';
+import { setPermissionForUserForChat } from '../../DBfunctions/dbFunctions';
 
-export const UserListItem = ({ user, isCurrentUserAdmin }) => {
-	const handColors = {
-		READ: '#EEBA02',
-		WRITE: '#8DCA4C',
-		REQUEST: '#F0325B',
+export const UserListItem = ({ user, isCurrentUserAdmin, chatId }) => {
+	const [showPermitOptions, setPermitOptions] = useState(false);
+
+	const grantOrDenyWriteAccess = async (userId, chatId, permissonToBeGiven) => {
+		try {
+			await setPermissionForUserForChat(userId, chatId, permissonToBeGiven);
+		} catch (error) {
+			console.log(error);
+		}
 	};
 
-	const [showPermitOptions, setPermitOptions] = useState(false);
 	return (
 		<li
 			className='users-list-item'
@@ -58,8 +62,18 @@ export const UserListItem = ({ user, isCurrentUserAdmin }) => {
 				<div className='btn-container'>
 					{user.permission === 'REQUEST' && (
 						<>
-							<button className='btn btn-text'>Accept</button>
-							<button className='btn btn-text'>Deny</button>
+							<button
+								className='btn btn-text'
+								onClick={() =>
+									grantOrDenyWriteAccess(user.id, chatId, 'WRITE')
+								}>
+								Accept
+							</button>
+							<button
+								className='btn btn-text'
+								onClick={() => grantOrDenyWriteAccess(user.id, chatId, 'READ')}>
+								Deny
+							</button>
 						</>
 					)}
 				</div>

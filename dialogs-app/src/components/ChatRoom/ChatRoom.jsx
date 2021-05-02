@@ -6,10 +6,12 @@ import {
 	getChats,
 	getMessageQueryFromChatId,
 	getUsersQuery,
+	removeUser,
 } from '../../DBfunctions/dbFunctions';
 import { ChatRoomMessagesContainer } from './ChatRoomMessagesContainer';
 import { ChatRoomUsersContainer } from './ChatRoomUsersContainer';
 import { useParams } from 'react-router-dom';
+import { useAuthentication } from '../../context';
 
 export function ChatRoom({ state }) {
 	const { chatId } = useParams();
@@ -24,11 +26,14 @@ export function ChatRoom({ state }) {
 	const [chats] = useCollectionData(chatQuery, { idField: 'id' });
 	const usersQuery = getUsersQuery();
 	const [users] = useCollectionData(usersQuery, { idField: 'id' });
+	const { authStates } = useAuthentication();
 
 	const chat = chats ? chats.find(({ id }) => id === chatId) : null;
 
 	useEffect(() => {
-		return () => {};
+		return () => {
+			removeUser(authStates.currentUser.uid, chatId);
+		};
 	}, []);
 
 	return (
