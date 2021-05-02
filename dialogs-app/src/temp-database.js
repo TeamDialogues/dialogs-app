@@ -1,32 +1,6 @@
 // export const emojis = [0x1f600, 0x1f923, 0x1f622, 0x1f631, 0x1f910, 0x1f60d];
 export const emojis = ['😀', '🤣', '😍', '🔥', '👍', '👎'];
 
-export const users = [
-	{
-		id: 1,
-		name: 'Ironman',
-		avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
-		status: 'active',
-	},
-	{
-		id: 2,
-		name: 'Thor',
-		avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
-		status: 'guest',
-	},
-	{
-		id: 3,
-		name: 'Cpt.America',
-		avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
-		status: 'active',
-	},
-];
-
-export const host = {
-	id: 2,
-	name: 'Thor',
-};
-
 export const currentUser = {
 	id: 1,
 	name: 'Ironman',
@@ -34,8 +8,44 @@ export const currentUser = {
 export const chat = {
 	id: 1,
 	title: 'This is a demo session',
-
-	users: [{ userId: 1, permission: 'read' }],
+	users: [
+		{
+			id: 1,
+			name: 'Ironman',
+			avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+			permission: 'READ',
+		},
+		{
+			id: 2,
+			name: 'Thor',
+			avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+			permission: 'ADMIN',
+		},
+		{
+			id: 3,
+			name: 'Cpt.America',
+			avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+			permission: 'READ',
+		},
+		{
+			id: 4,
+			name: 'Cpt. Marvel',
+			avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+			permission: 'WRITE',
+		},
+		{
+			id: 5,
+			name: 'Hulk',
+			avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+			permission: 'REQUEST',
+		},
+		{
+			id: 6,
+			name: 'Spiderman',
+			avatar: 'https://material-ui.com/static/images/avatar/1.jpg',
+			permission: 'REQUEST',
+		},
+	],
 
 	messages: [
 		{
