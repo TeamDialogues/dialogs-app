@@ -1,4 +1,6 @@
-import { useReducer, createContext, useContext } from "react";
+import { useReducer, createContext, useContext, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router";
+
 // import { useAuthState } from "react-firebase-hooks/auth";
 const authContext = createContext();
 
@@ -7,7 +9,7 @@ const authReducer = (auth, { type, payload }) => {
     case "SET_CURRENTUSER":
       return { ...auth, currentUser: payload };
     case "TOGGLE_LOGIN_STATE":
-      return { ...auth, isLoggedIn: !auth.isLoggedIn };
+      return { ...auth, isLoggedIn: payload ? payload : !auth.isLoggedIn };
   }
 };
 
@@ -16,6 +18,28 @@ export const AuthProvider = ({ children }) => {
     isLoggedIn: false,
     currentUser: null,
   });
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const userCredentials = JSON.parse(
+      localStorage?.getItem("userCredentials")
+    );
+
+    userCredentials?.isLoggedIn &&
+      authDispatch({
+        type: "TOGGLE_LOGIN_STATE",
+        payload: userCredentials.isLoggedIn,
+      });
+    userCredentials?.currentUser &&
+      authDispatch({
+        type: "SET_CURRENTUSER",
+        payload: userCredentials.currentUser,
+      });
+    if (userCredentials?.isLoggedIn) {
+      navigate(location.pathname);
+    }
+  }, []);
   return (
     <authContext.Provider value={{ authStates, authDispatch }}>
       {children}

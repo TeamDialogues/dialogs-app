@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./login.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import TextField from "@material-ui/core/TextField";
@@ -22,7 +22,7 @@ export const Login = () => {
     email: "",
     password: "",
   });
-  console.log({ authStates });
+
   const [error, setError] = useState("");
   const [validationError, setValidationError] = useState({
     email: "",
@@ -50,7 +50,9 @@ export const Login = () => {
 
     return isValidationSuccess;
   };
-
+  useEffect(() => {
+    auth.isLoggedIn && navigate("/");
+  });
   const signInWithGoogle = async () => {
     await auth.signInWithPopup(provider);
     const userObject = {
@@ -60,8 +62,15 @@ export const Login = () => {
       photoURL: user.photoURL,
     };
     if (user) {
+      await localStorage.setItem(
+        "userCredentials",
+        JSON.stringify({
+          isLoggedIn: true,
+          currentUser: userObject,
+        })
+      );
       authDispatch({ type: "SET_CURRENTUSER", payload: userObject });
-      authDispatch({ type: "TOGGLE_LOGIN_STATE" });
+      authDispatch({ type: "TOGGLE_LOGIN_STATE", payload: true });
       navigate("/");
     }
   };
@@ -84,13 +93,20 @@ export const Login = () => {
           displayName: userResponse.user.displayName,
           email: userResponse.user.email,
         };
-
+        await localStorage.setItem(
+          "userCredentials",
+          JSON.stringify({
+            isLoggedIn: true,
+            currentUser: currentUser,
+          })
+        );
         authDispatch({ type: "SET_CURRENTUSER", payload: currentUser });
-        authDispatch({ type: "TOGGLE_LOGIN_STATE" });
+        authDispatch({ type: "TOGGLE_LOGIN_STATE", payload: true });
         setUserObject({
           email: "",
           password: "",
         });
+        navigate("/");
       } catch (error) {
         setError(error.code);
       }

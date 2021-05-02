@@ -5,7 +5,7 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { makeStyles } from "@material-ui/core/styles";
 import { auth, provider } from "../firebase/firebaseconfig";
 import { useAuth } from "../context/authContext";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { TextField } from "@material-ui/core";
 import { isValidEmail, isValidPassword } from "../utils/utils";
 
@@ -58,16 +58,26 @@ export const Signup = () => {
   };
 
   const signInWithGoogle = async () => {
-    await auth.signInWithPopup(provider);
-    const userObject = {
-      uid: user.uid,
-      displayName: user.displayName,
-      email: user.email,
-      photoURL: user.photoURL,
-    };
-    if (user) {
+    try {
+      await auth.signInWithPopup(provider);
+      const userObject = {
+        uid: user.uid,
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      };
+      await localStorage.setItem(
+        "userCredentials",
+        JSON.stringify({
+          isLoggedIn: true,
+          currentUser: userObject,
+        })
+      );
       authDispatch({ type: "SET_CURRENTUSER", payload: userObject });
-      authDispatch({ type: "TOGGLE_LOGIN_STATE" });
+      authDispatch({ type: "TOGGLE_LOGIN_STATE", payload: true });
+      Navigate("/");
+    } catch (error) {
+      setError("Signin not successful");
     }
   };
 
@@ -91,13 +101,21 @@ export const Signup = () => {
           displayName: userResponse.user.displayName,
           email: userResponse.user.email,
         };
+        await localStorage.setItem(
+          "userCredentials",
+          JSON.stringify({
+            isLoggedIn: true,
+            currentUser: newUser,
+          })
+        );
         authDispatch({ type: "SET_CURRENTUSER", payload: newUser });
-        authDispatch({ type: "TOGGLE_LOGIN_STATE" });
+        authDispatch({ type: "TOGGLE_LOGIN_STATE", payload: true });
         setUserObject({
           name: "",
           email: "",
           password: "",
         });
+        Navigate("/");
       } catch (error) {
         console.log({ error });
         setError(`${error.code}, Login to enter`);
