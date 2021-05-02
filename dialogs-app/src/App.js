@@ -1,4 +1,5 @@
 import "./App.css";
+// eslint-disable-next-line no-unused-vars
 import { Routes, Route } from "react-router-dom";
 import { Login } from "./Auth/Login";
 import { Signup } from "./Auth/Signup";

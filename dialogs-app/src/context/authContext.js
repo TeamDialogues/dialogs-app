@@ -12,12 +12,12 @@ const authReducer = (auth, { type, payload }) => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [auth, authDispatch] = useReducer(authReducer, {
+  const [authStates, authDispatch] = useReducer(authReducer, {
     isLoggedIn: false,
     currentUser: null,
   });
   return (
-    <authContext.Provider value={{ auth, authDispatch }}>
+    <authContext.Provider value={{ authStates, authDispatch }}>
       {children}
     </authContext.Provider>
   );

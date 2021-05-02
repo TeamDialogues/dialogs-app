@@ -1,19 +1,16 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import "./login.css";
 import { useAuthState } from "react-firebase-hooks/auth";
 import TextField from "@material-ui/core/TextField";
 import { makeStyles } from "@material-ui/core/styles";
-import firebase, { auth, provider } from "../firebase/firebaseconfig";
-import "firebase/firestore";
-
-const firestore = firebase.firestore();
-
+import { auth, provider } from "../firebase/firebaseconfig";
 import { useAuth } from "../context/authContext";
 import { Link } from "react-router-dom";
+import { isValidEmail, isValidPassword } from "../utils/utils";
 
 const useStyles = makeStyles(() => ({
   input: {
-    marginBottom: "1.5rem",
     width: "100%",
   },
 }));
@@ -22,17 +19,43 @@ export const Login = () => {
   const classes = useStyles();
   const [user] = useAuthState(auth);
   const { authDispatch } = useAuth();
-  const [userObject] = useState({
-    name: "sruthi",
-    email: "sruthiragupathy@gmail.com",
-    password: "abcdef",
+  const [userObject, setUserObject] = useState({
+    email: "",
+    password: "",
   });
-  //   const [error, setError] = useState("");
+
+  const [error, setError] = useState("");
+  const [validationError, setValidationError] = useState({
+    email: "",
+    password: "",
+  });
+
+  const validateForm = () => {
+    let isValidationSuccess = true;
+
+    if (!userObject.email) {
+      setValidationError((error) => ({
+        ...error,
+        email: "Please enter a valid email",
+      }));
+      isValidationSuccess = false;
+    }
+    if (!userObject.password) {
+      setValidationError((error) => ({
+        ...error,
+        password: "Please enter a valid password",
+      }));
+      isValidationSuccess = false;
+    }
+
+    return isValidationSuccess;
+  };
 
   const signInWithGoogle = async () => {
     await auth.signInWithPopup(provider);
     const userObject = {
-      name: user.displayName,
+      uid: user.uid,
+      displayName: user.displayName,
       email: user.email,
       photoURL: user.photoURL,
     };
@@ -42,39 +65,40 @@ export const Login = () => {
     }
   };
 
-  const createUserWithEmailandPassword = async (e) => {
+  const signInWithEmailAndPassword = async (e) => {
     e.preventDefault();
-    const { name, email, password } = userObject;
-    console.log(userObject);
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(
-        email,
-        password
-      );
-      console.log({ user });
-      console.log("hi till this point");
-      //   console.log( });
-      const userRef = await firestore.collection("users");
-      const response = await userRef.add({
-        name,
-        email,
-        password,
-      });
-      console.log("here");
-      console.log({ response });
-    } catch (error) {
-      console.log(error);
+    setError("");
+    setValidationError({ email: "", password: "" });
+
+    if (validateForm()) {
+      const { email, password } = userObject;
+      try {
+        const userResponse = await auth.signInWithEmailAndPassword(
+          email,
+          password
+        );
+
+        const currentUser = {
+          uid: userResponse.user.uid,
+          displayName: userResponse.user.displayName,
+          email: userResponse.user.email,
+        };
+
+        authDispatch({ type: "SET_CURRENTUSER", payload: currentUser });
+        authDispatch({ type: "TOGGLE_LOGIN_STATE" });
+        setUserObject({
+          email: "",
+          password: "",
+        });
+      } catch (error) {
+        setError(error.code);
+      }
     }
   };
 
-  //   const signInWithEmailAndPasswordHandler = (event, email, password) => {
-  //     event.preventDefault();
-  //     auth.signInWithEmailAndPassword(email, password).catch((error) => {
-  //       setError("Error signing in with password and email!");
-  //       console.error("Error signing in with password and email", error);
-  //     });
-  //   };
-
+  const onChangeHandler = (e) => {
+    setUserObject({ ...userObject, [e.target.name]: e.target.value });
+  };
   return (
     <div className="login-container">
       <div className="landing-theme">
@@ -87,35 +111,45 @@ export const Login = () => {
         <div className="dialogs-logo desktop-view">dialogs</div>
         <div className="border-bottom padding-bottom">
           <h2>Sign in to Dialogs</h2>
-          <button className="btn-primary" onClick={signInWithGoogle}>
-            Sign In With Google
+          <button className="btn-primary width-100" onClick={signInWithGoogle}>
+            SIGN IN WITH GOOGLE
           </button>
         </div>
-        <form className="form flex-center-column">
-          <TextField
-            id="outlined-basic"
-            label="Username or Email Address"
-            variant="outlined"
-            className={classes.input}
-          />
-          <TextField
-            id="outlined-basic"
-            label="password"
-            variant="outlined"
-            className={classes.input}
-          />
-          <button
-            className="btn-primary margin-bottom"
-            onClick={(e) => {
-              console.log("hi");
-              createUserWithEmailandPassword(
-                e,
-                userObject.email,
-                userObject.password
-              );
-            }}
-          >
-            Sign In
+        <form
+          className="form flex-center-column"
+          onSubmit={signInWithEmailAndPassword}
+        >
+          {error && <div className="error-alert margin-bottom ">{error}</div>}
+          <div className="field-container">
+            <TextField
+              id="outlined-basic"
+              label="Email Address"
+              variant="outlined"
+              className={classes.input}
+              value={userObject.email}
+              name="email"
+              onChange={onChangeHandler}
+            />
+            {validationError.email && (
+              <small className="error-alert">*{validationError.email}</small>
+            )}
+          </div>
+          <div className="field-container">
+            <TextField
+              id="outlined-basic"
+              label="Password"
+              variant="outlined"
+              className={classes.input}
+              value={userObject.password}
+              name="password"
+              onChange={onChangeHandler}
+            />
+            {validationError.password && (
+              <small className="error-alert">*{validationError.password}</small>
+            )}
+          </div>
+          <button className="btn-primary margin-bottom" type="submit">
+            LOGIN
           </button>
           <div className="">
             Not a member?{" "}
