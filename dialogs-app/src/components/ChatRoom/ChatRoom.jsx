@@ -9,6 +9,7 @@ import {
   addUserToChat,
   getUsersQuery,
   setPermissionForUserForChat,
+  sendMessage,
 } from "../../DBfunctions/dbFunctions";
 
 const chatId = "EVk1hONn8Mi4Q1LHjnpl";
@@ -30,7 +31,7 @@ export function ChatRoom() {
   const [chats] = useCollectionData(chatQuery, { idField: "id" });
   const usersQuery = getUsersQuery();
   const [users] = useCollectionData(usersQuery, { idField: "id" });
-  
+
   const hostOfTheChat = chat.users.find(
     ({ permission }) => permission === "ADMIN"
   );

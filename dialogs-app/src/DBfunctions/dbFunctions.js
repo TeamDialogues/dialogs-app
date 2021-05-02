@@ -51,7 +51,6 @@ export async function setPermissionForUserForChat(
   chatId,
   permissonToBeGiven
 ) {
-
   const usersRef = firestore
     .collection("users")
     .where("userId", "==", userId)
@@ -67,23 +66,34 @@ export async function setPermissionForUserForChat(
   }
 }
 
-export function closeChat(chatId, isSaved) {}
+export function closeChat(chatId, isSaved) {
+  chatId = "3VP4ZAzpsnmw3MxYajqT";
+  if (isSaved) {
+    firestore.collection("chatrooms").doc(chatId).update({
+      currentStatus: "saved",
+    });
+  } else {
+    firestore.collection("chatrooms").doc(chatId).update({
+      currentStatus: "discarded",
+    });
+  }
+}
 
-export function makeChatPublic(chatId) {}
+export function makeChatPublic(chatId) {
+  firestore.collection("chatrooms").doc(chatId).update({
+    currentStatus: "public",
+  });
+}
 
-// export async function sendMessage(messageFromUser) {
-//     e.preventDefault();
-
-//     await messagesRef.add({
-//       userId: currentLoggedInUserId,
-//       userName: currentLoggedInUserName,
-//       text: textMessage,
-//       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
-//       chatRoomId: chatRoom.id,
-//       createdAt: new Date().toISOString(),
-//     });
-
-//     setTextMessage("");
-
-//     dummy.current.scrollIntoView({ behaviour: "smooth" });
-//   }
+export async function sendMessage(userMessageDetails) {
+  //   userMessageDetails = {
+  //     userId: "111",
+  //     userName: "Pooja",
+  //     text: "Testing backend",
+  //     avatar: "https://material-ui.com/static/images/avatar/1.jpg",
+  //     chatRoomId: "GXavhxw7uD3UKuJZAZAJ",
+  //     createdAt: new Date().toISOString(),
+  //   };
+  const messagesRef = firestore.collection("messages");
+  await messagesRef.add(userMessageDetails);
+}
