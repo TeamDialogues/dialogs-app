@@ -1,0 +1,75 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	font-family: 'Open Sans', sans-serif;
+}
+
+:root {
+	--primary-color: rgb(124, 58, 237);
+	--primary-color-light: #f0edfe;
+
+	--secondary-color: #adb6bf;
+	--secondary-color-dark: #9ba2aa;
+
+	--bg-color-light: #f0f4f7;
+
+	--em-bg-color-1: #dde4ec;
+	--em-bg-color-2: #12a2e9;
+}
+
+.btn {
+	display: inline-block;
+	font-size: 0.825rem;
+	font-weight: 600;
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+	border: none;
+	background-color: transparent;
+}
+
+.btn:disabled {
+	cursor: auto;
+}
+.btn:focus {
+	outline: 1px solid;
+}
+
+.btn-bubble {
+	padding: 0.6rem 1.5rem;
+	background-color: var(--primary-color);
+	color: white;
+	border-bottom-left-radius: 1rem;
+	border-top-right-radius: 1rem;
+	border-bottom-right-radius: 1rem;
+}
+
+.btn-square{
+	padding: 0.5rem;
+	border: 0;
+	background: var(--primary-color);
+	color: #fff;
+	cursor: pointer;
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.link {
+	text-decoration: none;
+	color: inherit;
+	display: inline-block;
+	padding: 0.4rem 1.5rem;
+	font-size: 0.825rem;
+	font-weight: 600;
+	text-align: center;
+	outline: none;
+	cursor: pointer;
+}
+.link:focus {
+	outline: 1px solid;
+}
+.text-color-secondary {
+	color: var(--secondary-color-dark);
+}
