@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { emojis, currentUser } from '../../temp-database';
+import { emojis } from '../../temp-database';
 import { sendMessage } from '../../DBfunctions/dbFunctions';
 import { checkUserPermissionWrite } from './utils';
+import { useAuthentication } from '../../context';
 
 export const ChatInputText = ({ chatId, users }) => {
 	const [textMessage, setTextMessage] = useState('');
 	const [showEmojiContainer, setEmojiContainerVisibility] = useState(false);
+	const { authStates } = useAuthentication();
 
 	return (
 		<div className='input-message-wrapper'>
@@ -33,7 +35,12 @@ export const ChatInputText = ({ chatId, users }) => {
 				<i className='far fa-grin-beam'></i>
 			</div>
 			<input
-				disabled={!checkUserPermissionWrite({ users, currentUser })}
+				disabled={
+					!checkUserPermissionWrite({
+						users,
+						currentUser: authStates?.currentUser,
+					})
+				}
 				className='input-message-field flex-grow'
 				placeholder='Type in your message..'
 				type='text'
@@ -41,20 +48,33 @@ export const ChatInputText = ({ chatId, users }) => {
 				onChange={(e) => setTextMessage(e.target.value)}
 			/>
 			<button
-				disabled={!checkUserPermissionWrite({ users, currentUser })}
+				disabled={
+					!checkUserPermissionWrite({
+						users,
+						currentUser: authStates?.currentUser,
+					})
+				}
 				className='btn btn-bubble'
 				onClick={() => {
 					console.log(
 						'hummmm',
-						checkUserPermissionWrite({ users, currentUser }),
+						checkUserPermissionWrite({
+							users,
+							currentUser: authStates?.currentUser,
+						}),
 					);
-					if (checkUserPermissionWrite({ users, currentUser })) {
+					if (
+						checkUserPermissionWrite({
+							users,
+							currentUser: authStates?.currentUser,
+						})
+					) {
 						try {
 							const userMessageDetails = {
-								userId: currentUser.uid,
-								userName: currentUser.displayName,
+								userId: authStates?.currentUser.uid,
+								userName: authStates?.currentUser.displayName,
 								text: textMessage,
-								avatar: currentUser.displayURL || '',
+								avatar: authStates?.currentUser.displayURL || '',
 								chatRoomId: chatId,
 								createdAt: new Date().toISOString(),
 							};

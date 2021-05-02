@@ -1,0 +1,29 @@
+.modal-container {
+	/* z-index: 100; */
+	border-radius: 0.5rem;
+	background: #fff;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 10;
+	background: #fff;
+	width: 15rem;
+	padding: 1rem;
+	width: 80%;
+	/* height: 40rem; */
+}
+
+.modal-btns {
+	justify-content: flex-end;
+}
+
+.btn-outline {
+	border: 1.5px solid var(--primary-color);
+}
+
+@media screen and (min-width: 769px) {
+	.modal-container {
+		width: 40%;
+	}
+}

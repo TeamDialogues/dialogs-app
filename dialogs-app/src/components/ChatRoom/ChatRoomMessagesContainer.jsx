@@ -1,6 +1,5 @@
-import { currentUser } from '../../temp-database';
+import { useAuthentication } from '../../context';
 import { ChatInputText } from './ChatInputText';
-import { sortUsers } from './utils';
 
 export const ChatRoomMessagesContainer = ({
 	chat,
@@ -8,11 +7,8 @@ export const ChatRoomMessagesContainer = ({
 	setHamburger,
 	users,
 }) => {
-	// const { hostOfTheChat } = sortUsers({
-	// 	users: chat.users,
-	// 	currentUser,
-	// });
-	const hostOfTheChat = { id: chat?.userId };
+	const { authStates } = useAuthentication();
+	const hostOfTheChat = { id: chat?.hostId };
 
 	return (
 		<>
@@ -43,7 +39,7 @@ export const ChatRoomMessagesContainer = ({
 								<div
 									key={message.id}
 									className={`chat-bubble-wrapper ${
-										message?.userId === currentUser?.uid
+										message?.userId === authStates?.currentUser?.uid
 											? 'chat-bubble-wrapper-right'
 											: 'chat-bubble-wrapper-left'
 									}`}>
@@ -62,7 +58,7 @@ export const ChatRoomMessagesContainer = ({
 									<div className='message-container'>
 										<div
 											className={`chat-bubble ${
-												message?.userId === currentUser?.uid
+												message?.userId === authStates?.currentUser?.uid
 													? 'chat-bubble-right'
 													: 'chat-bubble-left'
 											}`}>
@@ -73,7 +69,7 @@ export const ChatRoomMessagesContainer = ({
 											{new Date(message?.createdAt).getHours()}:
 											{new Date(message?.createdAt).getMinutes()}
 										</div>
-										{currentUser?.uid === hostOfTheChat?.id && (
+										{authStates?.currentUser?.uid === hostOfTheChat?.id && (
 											<button className='star-on-message btn'>
 												<i className='fas fa-star'></i>
 											</button>

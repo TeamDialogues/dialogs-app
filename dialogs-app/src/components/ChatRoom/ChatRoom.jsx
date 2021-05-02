@@ -3,18 +3,17 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import './chat-room.css';
 
 import {
-	addUserToChat,
 	getChats,
 	getMessageQueryFromChatId,
 	getUsersQuery,
 } from '../../DBfunctions/dbFunctions';
 import { ChatRoomMessagesContainer } from './ChatRoomMessagesContainer';
 import { ChatRoomUsersContainer } from './ChatRoomUsersContainer';
-import { currentUser } from '../../temp-database';
-
-const chatId = 'GXavhxw7uD3UKuJZAZAJ';
+import { useParams } from 'react-router-dom';
 
 export function ChatRoom({ state }) {
+	const { chatId } = useParams();
+
 	const messagesQuery = getMessageQueryFromChatId(chatId);
 
 	const [messages] = useCollectionData(messagesQuery, { idField: 'id' });
@@ -29,17 +28,6 @@ export function ChatRoom({ state }) {
 	const chat = chats ? chats.find(({ id }) => id === chatId) : null;
 
 	useEffect(() => {
-		const newUser = {
-			userId: currentUser.uid,
-			permission: currentUser.uid !== state.hostId ? 'READ' : 'ADMIN',
-			userName: currentUser.displayName,
-			userImage: currentUser?.photoURL || '',
-			createdAt: new Date().toISOString(),
-			chatId: chatId,
-		};
-		console.log(newUser);
-
-		// addUserToChat(newUser);
 		return () => {};
 	}, []);
 
@@ -51,6 +39,7 @@ export function ChatRoom({ state }) {
 						users={users}
 						setHamburger={setHamburger}
 						showHamburger={showHamburger}
+						chatId={chat.id}
 					/>
 					<ChatRoomMessagesContainer
 						setHamburger={setHamburger}
