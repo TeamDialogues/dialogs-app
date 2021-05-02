@@ -11,7 +11,7 @@ function App() {
 					<Route path='/login' element={<Login />} />
 					<Route path='/signup' element={<Signup />} />
 					<PrivateRoutes path='/' element={<Home />} />
-					<PrivateRoutes path='/chatroom/:chatId' element={<ChatRoom />} />
+					<Route path='/chatroom/:chatId' element={<ChatRoom />} />
 				</Routes>
 			</div>
 		</>
