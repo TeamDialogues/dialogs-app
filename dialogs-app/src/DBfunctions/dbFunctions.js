@@ -1,13 +1,11 @@
-import React, { useRef, useState } from "react";
-import { useCollectionData } from "react-firebase-hooks/firestore";
+
 import "firebase/firestore";
 import "firebase/auth";
 import firebase from "../config/firebaseConfig";
 const firestore = firebase.firestore();
 
-export function getChats(chatId) {
-  chatId = "EVk1hONn8Mi4Q1LHjnpl";
 
+export function getChats() {
   //TODO: Optimise datamodel (good to have)
   const messagesRef = firestore.collection("chatrooms");
 
@@ -33,16 +31,16 @@ export function getMessageQueryFromChatId(chatId) {
 }
 
 export async function addUserToChat(newUser) {
-  newUser = {
-    userId: "123",
-    permission: "READ",
-    userName: "random",
-    userImage: "https://material-ui.com/static/images/avatar/1.jpg",
-    createdAt: new Date().toISOString(),
-    chatId: "fmwUYD6SU31ZPPf4F08z",
-  };
+  // newUser = {
+  //   userId: "123",
+  //   permission: "READ",
+  //   userName: "random",
+  //   userImage: "https://material-ui.com/static/images/avatar/1.jpg",
+  //   createdAt: new Date().toISOString(),
+  //   chatId: "fmwUYD6SU31ZPPf4F08z",
+  // };
+  
   const usersRef = firestore.collection("users");
-
   const chatResponse = await usersRef.add(newUser);
 }
 
@@ -67,7 +65,7 @@ export async function setPermissionForUserForChat(
 }
 
 export function closeChat(chatId, isSaved) {
-  chatId = "3VP4ZAzpsnmw3MxYajqT";
+  // chatId = "3VP4ZAzpsnmw3MxYajqT";
   if (isSaved) {
     firestore.collection("chatrooms").doc(chatId).update({
       currentStatus: "saved",
