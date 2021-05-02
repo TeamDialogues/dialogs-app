@@ -1,18 +1,38 @@
 import { useEffect, useState } from "react";
 import { currentUser, emojis, chat } from "../../temp-database";
-
+import { useCollectionData } from "react-firebase-hooks/firestore";
 import "./chat-room.css";
 import { UserListItem } from "./UsersListItem";
+import {
+  getChatFromId,
+  getMessageQueryFromChatId,
+  addUserToChat,
+} from "../../DBfunctions/dbFunctions";
 
+const chatId = "EVk1hONn8Mi4Q1LHjnpl";
+const user = {
+  userId: "123",
+  permission: "READ",
+  userName: "random",
+  userImage: "https://material-ui.com/static/images/avatar/1.jpg",
+};
 export function ChatRoom() {
   const [showEmojiContainer, setEmojiContainerVisibility] = useState(false);
   const [textMessage, setTextMessage] = useState("");
   const [showHamburger, setHamburger] = useState(false);
+  const messagesQuery = getMessageQueryFromChatId(chatId);
+  //TODO: use these live messages for display in chat
+  const [messages] = useCollectionData(messagesQuery, { idField: "id" });
+  
+  const chatQuery = getChatFromId(chatId);
 
+  const [chats] = useCollectionData(chatQuery, { idField: "id" });
+  
+  addUserToChat(user, chatId);
   const hostOfTheChat = chat.users.find(
     ({ permission }) => permission === "ADMIN"
   );
-
+  
   const currentUserInfoFromChat = chat.users.find(
     ({ id }) => id === currentUser.id
   );
@@ -41,10 +61,11 @@ export function ChatRoom() {
 
   useEffect(() => {
     //make user's permission in chat model- read
+    // getChatFromId(chatId, setChatData);
     return () => {
       //remove user from users array in chat model
     };
-  });
+  }, []);
   return (
     <div className="grid-30-70-layout">
       <div className={`grid-item-1 grid-item ${showHamburger && "active"}`}>
@@ -170,7 +191,7 @@ export function ChatRoom() {
             value={textMessage}
             onChange={(e) => setTextMessage(e.target.value)}
           />
-          <button className="btn btn-primary-solid">Send</button>
+          {/* <button disabled={() => !writePermission(currentUserId, permission)} onClick = {sendMessage} className="btn btn-primary-solid">Send</button> */}
         </div>
       </div>
     </div>
