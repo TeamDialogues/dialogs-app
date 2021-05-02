@@ -16,7 +16,6 @@ export function getChatFromId() {
 }
 
 export function getMessageQueryFromChatId(chatId) {
-  chatId = "EVk1hONn8Mi4Q1LHjnpl";
 
   //TODO: Optimise datamodel (good to have)
   const messagesRef = firestore.collection("messages");

@@ -1,24 +1,25 @@
-export const sortUsers = ({chat, currentUser}) =>{
+export const sortUsers = ({users, currentUser}) =>{
     
-    const currentUserInfoFromChat = chat.users.find(
-      ({ id }) => id === currentUser.id
+  if(users && users.length !==0 ){
+    const currentUserInfoFromChat = users.find(
+      ({ id }) => id === currentUser?.id
     );
-    const hostOfTheChat = chat.users.find(
+    const hostOfTheChat = users.find(
       ({ permission }) => permission === "ADMIN"
     );
   
-    const isCurrentUserAdmin = hostOfTheChat.id === currentUserInfoFromChat.id;
+    const isCurrentUserAdmin = hostOfTheChat?.id === currentUserInfoFromChat?.id;
   
-    const activeUsers = chat.users.filter(
-      ({ id, permission }) => id !== currentUser.id && permission === "WRITE"
+    const activeUsers = users.filter(
+      ({ id, permission }) => id !== currentUser?.id && permission === "WRITE"
     );
-    const guestUsers = chat.users.filter(
-      ({ id, permission }) => id !== currentUser.id && permission === "READ"
+    const guestUsers = users.filter(
+      ({ id, permission }) => id !== currentUser?.id && permission === "READ"
     );
-    const requestedUsers = chat.users.filter(
-      ({ id, permission }) => id !== currentUser.id && permission === "REQUEST"
+    const requestedUsers = users.filter(
+      ({ id, permission }) => id !== currentUser?.id && permission === "REQUEST"
     );
-  
+    
     const sortedUsers = isCurrentUserAdmin
       ? [hostOfTheChat, ...requestedUsers, ...activeUsers, ...guestUsers]
       : [
@@ -29,5 +30,9 @@ export const sortUsers = ({chat, currentUser}) =>{
           ...guestUsers,
         ];
 
-  return {sortedUsers, isCurrentUserAdmin, hostOfTheChat};
+        return {sortedUsers, isCurrentUserAdmin, hostOfTheChat};
+  }
+    
+  return {sortedUsers: [], isCurrentUserAdmin: [], hostOfTheChat: []};
+  
 }

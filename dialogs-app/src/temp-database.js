@@ -2,45 +2,51 @@
 export const emojis = ["😀", "🤣", "😍", "🔥", "👍", "👎"];
 
 export const currentUser = {
-  id: 1,
-  name: "Ironman",
+  id: "14",
+  name: "Thor",
 };
+
+// export const host = {
+//   id: "15",
+//   name: "Marvel",
+// };
+
 export const chat = {
   id: 1,
   title: "This is a demo session",
   users: [
     {
-      id: 1,
+      id: "1",
       name: "Ironman",
       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
       permission: "READ",
     },
     {
-      id: 2,
+      id: "14",
       name: "Thor",
       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
       permission: "ADMIN",
     },
     {
-      id: 3,
+      id: "3",
       name: "Cpt.America",
       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
       permission: "READ",
     },
     {
-      id: 4,
+      id: "4",
       name: "Cpt. Marvel",
       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
       permission: "WRITE",
     },
     {
-      id: 5,
+      id: "5",
       name: "Hulk",
       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
       permission: "REQUEST",
     },
     {
-      id: 6,
+      id: "6",
       name: "Spiderman",
       avatar: "https://material-ui.com/static/images/avatar/1.jpg",
       permission: "REQUEST",
@@ -49,7 +55,7 @@ export const chat = {
 
   messages: [
     {
-      id: 1,
+      id: "1",
       text: "I am Ironman",
       sender: {
         id: 1,
