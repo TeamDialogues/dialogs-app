@@ -1,7 +1,7 @@
 .home-wrapper {
 	background: var(--light-grey);
 	text-align: left;
-	padding: 1.25rem;
+	padding: 1rem 1.25rem;
 	color: var(--textgrey);
 }
 
@@ -71,6 +71,7 @@
 .flex {
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 }
 
 .live-badge {
@@ -86,7 +87,8 @@
 
 .btn-floating {
 	position: fixed;
-	top: 1rem;
+	top: 5.25rem;
+	right: 1.5rem;
 	z-index: 2;
 	padding: 1rem;
 }
@@ -113,7 +115,7 @@
 
 @media only screen and (min-width: 769px) {
 	.home-wrapper {
-		padding: 2rem;
+		padding: 1rem 2rem;
 	}
 	.grid-wrapper {
 		grid-template-columns: 1fr 1fr;
