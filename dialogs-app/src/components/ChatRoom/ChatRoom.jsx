@@ -25,16 +25,11 @@ export function ChatRoom() {
   const [textMessage, setTextMessage] = useState("");
   const [showHamburger, setHamburger] = useState(false);
   const messagesQuery = getMessageQueryFromChatId(chatId);
-  //TODO: use these live messages for display in chat
   const [messages] = useCollectionData(messagesQuery, { idField: "id" });
-  
-  console.log({messages});
-  
+
   const chatQuery = getChatFromId();
 
   const [chats] = useCollectionData(chatQuery, { idField: "id" });
-  
-  addUserToChat(user, chatId);
 
 
   useEffect(() => {
@@ -44,7 +39,6 @@ export function ChatRoom() {
       //remove user from users array in chat model
     };
   }, []);
-
 
   const {sortedUsers, isCurrentUserAdmin, hostOfTheChat} = sortUsers({chat, currentUser});
   
