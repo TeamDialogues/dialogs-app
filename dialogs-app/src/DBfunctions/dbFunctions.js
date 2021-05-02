@@ -79,6 +79,7 @@ export function makeChatPublic(chatId) {
 }
 
 export async function sendMessage(userMessageDetails) {
+	console.log('userdetail', userMessageDetails);
 	const messagesRef = firestore.collection('messages');
 	await messagesRef.add(userMessageDetails);
 }

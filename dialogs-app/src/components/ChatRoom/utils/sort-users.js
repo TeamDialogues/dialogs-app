@@ -9,8 +9,7 @@ export const sortUsers = ({ users, currentUser, chatId }) => {
 			({ permission }) => permission === 'ADMIN',
 		);
 
-		const isCurrentUserAdmin =
-			hostOfTheChat?.id === currentUserInfoFromChat?.id;
+		const isCurrentUserAdmin = true;
 
 		const activeUsers = allChatUsers.filter(
 			({ id, permission }) => id !== currentUser?.uid && permission === 'WRITE',
