@@ -5,16 +5,8 @@ import "firebase/auth";
 import firebase from "../config/firebaseConfig";
 const firestore = firebase.firestore();
 
-export function getChatFromId(chatId) {
-  chatId = "EVk1hONn8Mi4Q1LHjnpl";
-
-  //   const chatRoomsRef = await firestore
-  //     .collection("chatrooms")
-  //     .doc(chatId)
-  //     .get();
-  //    setChatData(chatRoomsRef.data());
-  // console.log(chatRoomsRef.data());
-
+export function getChatFromId() {
+  
   //TODO: Optimise datamodel (good to have)
   const messagesRef = firestore.collection("chatrooms");
 
