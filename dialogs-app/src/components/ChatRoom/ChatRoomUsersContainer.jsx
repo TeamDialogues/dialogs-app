@@ -34,7 +34,7 @@ export const ChatRoomUsersContainer = ({
 					requestWriteAccess({
 						userId: authStates.currentUser.uid,
 						chatId,
-						permissonToBeGiven: 'WRITE',
+						permissonToBeGiven: 'REQUEST',
 					})
 				}>
 				<i className='fas fa-hand-paper margin-right-4px'></i>Raise Request To
