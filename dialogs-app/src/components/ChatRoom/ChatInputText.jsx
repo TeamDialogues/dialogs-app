@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { emojis } from '../../temp-database';
 import { sendMessage } from '../../DBfunctions/dbFunctions';
-import { checkUserPermissionWrite } from './utils';
 import { useAuthentication } from '../../context';
 
 export const ChatInputText = ({ chatId, users }) => {
@@ -9,31 +8,23 @@ export const ChatInputText = ({ chatId, users }) => {
 	const [showEmojiContainer, setEmojiContainerVisibility] = useState(false);
 	const { authStates } = useAuthentication();
 
+	console.log({ currentUser: authStates.currentUser });
+
 	const postMessage = async (e) => {
+		console.log('hereee');
 		e.preventDefault();
 		try {
-			if (
-				checkUserPermissionWrite({
-					users,
-					currentUser: authStates?.currentUser,
-				})
-			) {
-				try {
-					const userMessageDetails = {
-						userId: authStates?.currentUser.uid,
-						userName: authStates?.currentUser.displayName,
-						text: textMessage,
-						avatar: authStates?.currentUser.displayURL || '',
-						chatRoomId: chatId,
-						createdAt: new Date().toISOString(),
-					};
-
-					await sendMessage(userMessageDetails);
-					setTextMessage('');
-				} catch (error) {
-					console.log(error);
-				}
-			}
+			const userMessageDetails = {
+				userId: authStates?.currentUser.uid,
+				userName: authStates?.currentUser.displayName,
+				text: textMessage,
+				avatar: authStates?.currentUser.photoURL || '',
+				chatRoomId: chatId,
+				createdAt: new Date().toISOString(),
+			};
+			await sendMessage(userMessageDetails);
+			setTextMessage('');
+			console.log('herrrr2');
 		} catch (error) {
 			console.log(error);
 		}
@@ -69,25 +60,13 @@ export const ChatInputText = ({ chatId, users }) => {
 				<i className='far fa-grin-beam'></i>
 			</div>
 			<input
-				// disabled={checkUserPermissionWrite({
-				// 	users,
-				// 	currentUser: authStates?.currentUser,
-				// })}
 				className='input-message-field flex-grow'
 				placeholder='Type in your message..'
 				type='text'
 				value={textMessage}
 				onChange={(e) => setTextMessage(e.target.value)}
 			/>
-			<button
-				// disabled={
-				// 	!checkUserPermissionWrite({
-				// 		users,
-				// 		currentUser: authStates?.currentUser,
-				// 	})
-				// }
-				className='btn btn-bubble'
-				onClick={postMessage}>
+			<button className='btn btn-bubble' onClick={postMessage}>
 				Send
 			</button>
 		</form>

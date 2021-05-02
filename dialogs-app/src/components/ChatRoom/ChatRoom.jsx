@@ -28,7 +28,9 @@ export function ChatRoom({ state }) {
 	const [users] = useCollectionData(usersQuery, { idField: 'id' });
 	const { authStates } = useAuthentication();
 
-	const chat = chats ? chats.find(({ id }) => id === chatId) : null;
+	const chat = chats ? chats.find(({ id }) => id === chatId) : [];
+
+	const allChatUsers = users && users.filter((user) => user.chatId === chatId);
 
 	useEffect(() => {
 		return () => {
@@ -38,10 +40,10 @@ export function ChatRoom({ state }) {
 
 	return (
 		<>
-			{chat && users && messages && (
+			{chat && allChatUsers && messages && (
 				<div className='grid-30-70-layout'>
 					<ChatRoomUsersContainer
-						users={users}
+						users={allChatUsers}
 						setHamburger={setHamburger}
 						showHamburger={showHamburger}
 						chatId={chat.id}
@@ -50,7 +52,7 @@ export function ChatRoom({ state }) {
 						setHamburger={setHamburger}
 						chat={chat}
 						messages={messages}
-						users={users}
+						users={allChatUsers}
 					/>
 				</div>
 			)}

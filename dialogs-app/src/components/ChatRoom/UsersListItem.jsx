@@ -4,9 +4,12 @@ import { setPermissionForUserForChat } from '../../DBfunctions/dbFunctions';
 export const UserListItem = ({ user, isCurrentUserAdmin, chatId }) => {
 	const [showPermitOptions, setPermitOptions] = useState(false);
 
+	console.log({ isCurrentUserAdmin });
+
 	const grantOrDenyWriteAccess = async (userId, chatId, permissonToBeGiven) => {
 		try {
 			await setPermissionForUserForChat(userId, chatId, permissonToBeGiven);
+			console.log('working');
 		} catch (error) {
 			console.log(error);
 		}

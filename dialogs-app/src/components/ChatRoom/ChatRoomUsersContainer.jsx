@@ -15,19 +15,9 @@ export const ChatRoomUsersContainer = ({
 		currentUser: authStates?.currentUser,
 		chatId,
 	});
-	console.log({ users });
 
-	const requestWriteAccess = async (userId, chatId, permissonToBeGiven) => {
-		if (
-			!checkUserPermissionWrite({
-				users,
-				currentUser: authStates.currentUser,
-				chatId,
-			})
-		) {
-			console.log('herrrree');
-			await setPermissionForUserForChat(userId, chatId, permissonToBeGiven);
-		}
+	const requestWriteAccess = async ({ userId, chatId, permissonToBeGiven }) => {
+		await setPermissionForUserForChat(userId, chatId, permissonToBeGiven);
 	};
 	return (
 		<div className={`grid-item-1 grid-item ${showHamburger && 'active'}`}>
@@ -41,7 +31,11 @@ export const ChatRoomUsersContainer = ({
 			<button
 				className='btn btn-square raise-request-btn'
 				onClick={() =>
-					requestWriteAccess(authStates.currentUser.uid, chatId, 'REQUEST')
+					requestWriteAccess({
+						userId: authStates.currentUser.uid,
+						chatId,
+						permissonToBeGiven: 'WRITE',
+					})
 				}>
 				<i className='fas fa-hand-paper margin-right-4px'></i>Raise Request To
 				Join Chat
