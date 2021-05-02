@@ -6,14 +6,6 @@ export const ChatRoomSaved = ({ chat }) => {
 				<p className='text-color-secondary'>{chat.agenda}</p>
 			</div>
 
-			<button
-				className='btn btn-open-users-hamburger'
-				onClick={() => {
-					setHamburger(true);
-				}}>
-				Users Joined
-			</button>
-
 			<div className='divider-overlay'>
 				<span className='chat-date'>
 					{new Date(chat?.createdAt).toDateString()}

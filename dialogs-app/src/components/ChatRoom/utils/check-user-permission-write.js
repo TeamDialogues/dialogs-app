@@ -1,8 +1,10 @@
-export const checkUserPermissionWrite = ({ users, currentUser }) => {
-	return users.find(
+export const checkUserPermissionWrite = ({ users, currentUser, chatId }) => {
+	const allChatUsers = users.filter((user) => user.chatId === chatId);
+
+	return allChatUsers.find(
 		({ userId, permission }) =>
-			userId === currentUser?.uid &&
-			(permission === 'WRITE' || permission === 'ADMIN'),
+			(userId === currentUser?.uid && permission === 'WRITE') ||
+			(userId === currentUser?.uid && permission === 'ADMIN'),
 	)
 		? true
 		: false;

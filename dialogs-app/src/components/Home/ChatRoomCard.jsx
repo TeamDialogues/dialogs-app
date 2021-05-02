@@ -55,9 +55,6 @@ export const ChatRoomCard = ({ chatRoom }) => {
 			<div className='card__details'>
 				<div className='card__details--detail'>Hosted By {hostName}</div>
 				<div className='card__details--detail'>
-					{users?.length ? users.length : 0} people joined
-				</div>
-				<div className='card__details--detail'>
 					{`Created At: ${dateTime.date}
         ${dateTime.time}`}
 				</div>

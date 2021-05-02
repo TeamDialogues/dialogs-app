@@ -9,8 +9,42 @@ export const ChatInputText = ({ chatId, users }) => {
 	const [showEmojiContainer, setEmojiContainerVisibility] = useState(false);
 	const { authStates } = useAuthentication();
 
+	const postMessage = async (e) => {
+		e.preventDefault();
+		try {
+			if (
+				checkUserPermissionWrite({
+					users,
+					currentUser: authStates?.currentUser,
+				})
+			) {
+				try {
+					const userMessageDetails = {
+						userId: authStates?.currentUser.uid,
+						userName: authStates?.currentUser.displayName,
+						text: textMessage,
+						avatar: authStates?.currentUser.displayURL || '',
+						chatRoomId: chatId,
+						createdAt: new Date().toISOString(),
+					};
+
+					await sendMessage(userMessageDetails);
+					setTextMessage('');
+				} catch (error) {
+					console.log(error);
+				}
+			}
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
 	return (
-		<div className='input-message-wrapper'>
+		<form
+			className='input-message-wrapper'
+			onSubmit={(e) => {
+				e.preventDefault();
+			}}>
 			<a href='#last-message' className='link jump-to-present-button'>
 				Jump to present <i className='fas fa-chevron-down'></i>
 			</a>
@@ -55,38 +89,9 @@ export const ChatInputText = ({ chatId, users }) => {
 					})
 				}
 				className='btn btn-bubble'
-				onClick={() => {
-					console.log(
-						'hummmm',
-						checkUserPermissionWrite({
-							users,
-							currentUser: authStates?.currentUser,
-						}),
-					);
-					if (
-						checkUserPermissionWrite({
-							users,
-							currentUser: authStates?.currentUser,
-						})
-					) {
-						try {
-							const userMessageDetails = {
-								userId: authStates?.currentUser.uid,
-								userName: authStates?.currentUser.displayName,
-								text: textMessage,
-								avatar: authStates?.currentUser.displayURL || '',
-								chatRoomId: chatId,
-								createdAt: new Date().toISOString(),
-							};
-							console.log({ userMessageDetails });
-							sendMessage(userMessageDetails);
-						} catch (error) {
-							console.log(error);
-						}
-					}
-				}}>
+				onClick={postMessage}>
 				Send
 			</button>
-		</div>
+		</form>
 	);
 };

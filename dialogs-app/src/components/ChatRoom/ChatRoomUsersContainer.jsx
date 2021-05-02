@@ -1,6 +1,7 @@
 import { useAuthentication } from '../../context';
+import { setPermissionForUserForChat } from '../../DBfunctions/dbFunctions';
 import { UserListItem } from './UsersListItem';
-import { sortUsers } from './utils';
+import { checkUserPermissionWrite, sortUsers } from './utils';
 
 export const ChatRoomUsersContainer = ({
 	users,
@@ -14,7 +15,20 @@ export const ChatRoomUsersContainer = ({
 		currentUser: authStates?.currentUser,
 		chatId,
 	});
-	console.log(sortedUsers);
+	console.log({ users });
+
+	const requestWriteAccess = async (userId, chatId, permissonToBeGiven) => {
+		if (
+			!checkUserPermissionWrite({
+				users,
+				currentUser: authStates.currentUser,
+				chatId,
+			})
+		) {
+			console.log('herrrree');
+			await setPermissionForUserForChat(userId, chatId, permissonToBeGiven);
+		}
+	};
 	return (
 		<div className={`grid-item-1 grid-item ${showHamburger && 'active'}`}>
 			<button
@@ -24,7 +38,11 @@ export const ChatRoomUsersContainer = ({
 				}}>
 				<i className='fas fa-times'></i>
 			</button>
-			<button className='btn btn-square raise-request-btn'>
+			<button
+				className='btn btn-square raise-request-btn'
+				onClick={() =>
+					requestWriteAccess(authStates.currentUser.uid, chatId, 'REQUEST')
+				}>
 				<i className='fas fa-hand-paper margin-right-4px'></i>Raise Request To
 				Join Chat
 			</button>
@@ -36,6 +54,7 @@ export const ChatRoomUsersContainer = ({
 								key={user.id}
 								user={user}
 								isCurrentUserAdmin={isCurrentUserAdmin}
+								chatId={chatId}
 							/>
 						),
 				)}

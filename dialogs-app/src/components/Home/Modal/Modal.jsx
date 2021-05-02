@@ -3,6 +3,7 @@ import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
 import { useState } from 'react';
 import { useAuthentication } from '../../../context';
+import { createRoom } from '../../../DBfunctions/dbFunctions';
 // import { chatRooms } from "../home/mockdata";
 
 const useStyles = makeStyles(() => ({
@@ -53,31 +54,35 @@ export const Modal = ({ setShowModal }) => {
 
 	const createRoomHandler = async (e) => {
 		e.preventDefault();
-		setValidationError({ title: '', agenda: '' });
-		if (validateForm(chatRoom.title, chatRoom.agenda)) {
-			const newRoom = {
-				hostId: authStates.currentUser.uid,
-				hostName: authStates.currentUser.displayName,
-				title: chatRoom.title,
-				agenda: chatRoom.agenda,
-				currentStatus: 'ongoing', //has to be made ENUM
-				createdAt: new Date().toISOString(),
-			};
-			console.log({ newRoom });
-			const userAdmin = {
-				userId: authStates.currentUser.uid,
-				permission: 'ADMIN',
-				userName: authStates.currentUser.displayName,
-				userImage: 'https://material-ui.com/static/images/avatar/1.jpg',
-				createdAt: new Date().toISOString(),
-			};
-			console.log({ userAdmin });
-			setChatRoom({ title: '', agenda: '' });
-			setShowModal((prev) => !prev);
+		try {
+			setValidationError({ title: '', agenda: '' });
+			if (validateForm(chatRoom.title, chatRoom.agenda)) {
+				const newRoom = {
+					hostId: authStates.currentUser.uid,
+					hostName: authStates.currentUser.displayName,
+					title: chatRoom.title,
+					agenda: chatRoom.agenda,
+					currentStatus: 'ongoing', //has to be made ENUM
+					createdAt: new Date().toISOString(),
+				};
+
+				const userAdmin = {
+					userId: authStates.currentUser.uid,
+					permission: 'ADMIN',
+					userName: authStates?.currentUser?.displayName,
+					userImage: authStates?.currentUser?.photoURL || '',
+					createdAt: new Date().toISOString(),
+				};
+				await createRoom(newRoom, userAdmin);
+				setChatRoom({ title: '', agenda: '' });
+				setShowModal((prev) => !prev);
+			}
+		} catch (error) {
+			console.log(error);
 		}
 	};
 
-	const cancelHandler = (e) => {
+	const discardCreateRoom = (e) => {
 		e.preventDefault();
 		setChatRoom({ title: '', agenda: '' });
 		setShowModal((prev) => !prev);
@@ -118,7 +123,7 @@ export const Modal = ({ setShowModal }) => {
 			<div className='flex-center modal-btns'>
 				<button
 					className='btn btn-square btn-outline-secondary'
-					onClick={cancelHandler}>
+					onClick={discardCreateRoom}>
 					Cancel
 				</button>
 				<button
