@@ -3,6 +3,8 @@ import { useCollectionData } from "react-firebase-hooks/firestore";
 import "firebase/firestore";
 import "firebase/auth";
 import firebase from "../../config/firebaseConfig";
+import { closeChat, createRoom } from "../../DBfunctions/dbFunctions";
+
 const firestore = firebase.firestore();
 
 const currentLoggedInUserId = "12";
@@ -173,6 +175,32 @@ function ChatRoomFunctionality() {
 
   return (
     <div className="App">
+      <button
+        onClick={() =>
+          createRoom(
+            {
+              hostId: currentLoggedInUserId,
+              hostName: currentLoggedInUserName,
+              title: "title",
+              agenda: "agenda",
+              currentStatus: "ongoing", //has to be made ENUM
+              createdAt: new Date().toISOString(),
+            },
+            {
+              userId: currentLoggedInUserId,
+              permission: "ADMIN",
+              userName: currentLoggedInUserName,
+              userImage: "https://material-ui.com/static/images/avatar/1.jpg",
+              createdAt: new Date().toISOString(),
+            }
+          )
+        }
+      >
+        Click new Room (new function test)
+      </button>
+      <button onClick={() => closeChat("fmwUYD6SU31ZPPf4F08z", true)}>
+        Close Chat
+      </button>
       <button onClick={() => setShowForm(true)}>Create Room</button>
       {showForm && newRoomForm()}
       <br />
