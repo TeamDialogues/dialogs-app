@@ -26,10 +26,10 @@
 	flex-direction: column;
 	justify-content: center;
 }
-
 .dialogs-logo {
 	font-family: 'Pacifico', cursive;
 	font-size: 2rem;
+	color: var(--midgrey);
 }
 
 .btn-primary {
