@@ -21,18 +21,16 @@ export function ChatRoom() {
   const [textMessage, setTextMessage] = useState("");
   const [showHamburger, setHamburger] = useState(false);
   const messagesQuery = getMessageQueryFromChatId(chatId);
-  //TODO: use these live messages for display in chat
   const [messages] = useCollectionData(messagesQuery, { idField: "id" });
-  
+
   const chatQuery = getChatFromId(chatId);
 
   const [chats] = useCollectionData(chatQuery, { idField: "id" });
-  
-  addUserToChat(user, chatId);
+
   const hostOfTheChat = chat.users.find(
     ({ permission }) => permission === "ADMIN"
   );
-  
+
   const currentUserInfoFromChat = chat.users.find(
     ({ id }) => id === currentUser.id
   );
